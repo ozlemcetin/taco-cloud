@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Taco Cloud</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" href="..\static\styles.css">
+</head>
+
+<body>
+
+<h1>Discount codes:</h1>
+<img src="..\static\images\TacoCloud.png"
+     th:src="@{/images/TacoCloud.png}"/>
+
+<ul>
+    <li th:each="code : ${codes}">
+        <span> Use code <b>"<span th:text="${code.key}">CODE KEY</span>"</b>
+            for <span th:text="${code.value}">CODE VALUE</span> % off your order.</span>
+    </li>
+</ul>
+
+</body>
+</html>

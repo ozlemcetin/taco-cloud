@@ -1,0 +1,32 @@
+--Spring Boot will also execute a file named data.sql from the root of the classpath when
+--the application starts. Therefore, you can load the database with ingredient data using
+--the insert statements in the next listing, placed in src/main/resources/data.sql.
+
+delete from Ingredient;
+delete from Taco;
+delete from Taco_Ingredients;
+delete from Taco_Order;
+delete from Taco_Order_Tacos;
+
+
+
+insert into Ingredient (id, name, type)
+                values ('FLTO', 'Flour Tortilla', 'WRAP');
+insert into Ingredient (id, name, type)
+                values ('COTO', 'Corn Tortilla', 'WRAP');
+insert into Ingredient (id, name, type)
+                values ('GRBF', 'Ground Beef', 'PROTEIN');
+insert into Ingredient (id, name, type)
+                values ('CARN', 'Carnitas', 'PROTEIN');
+insert into Ingredient (id, name, type)
+                values ('TMTO', 'Diced Tomatoes', 'VEGGIES');
+insert into Ingredient (id, name, type)
+                values ('LETC', 'Lettuce', 'VEGGIES');
+insert into Ingredient (id, name, type)
+                values ('CHED', 'Cheddar', 'CHEESE');
+insert into Ingredient (id, name, type)
+                values ('JACK', 'Monterrey Jack', 'CHEESE');
+insert into Ingredient (id, name, type)
+                values ('SLSA', 'Salsa', 'SAUCE');
+insert into Ingredient (id, name, type)
+                values ('SRCR', 'Sour Cream', 'SAUCE');
