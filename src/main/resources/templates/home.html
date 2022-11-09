@@ -10,10 +10,15 @@
 <body>
 
 <h1>Welcome to...</h1>
-<img th:src="@{/images/TacoCloud.png}"/>
+
+
+<!-- It uses a Thymeleaf th:src attribute and an @{…} expression to reference the image with a context-relative
+path.-->
+
+<img th:src="@{/images/TacoCloud.png}" src="../static/images/TacoCloud.png"/>
 
 <div>
-    <a th:href="@{/design}" id="design">Design a new taco!</a>
+    <a href="#" th:href="@{/design}" id="design">Design a new taco!</a>
 </div>
 
 </body>
