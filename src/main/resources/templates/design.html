@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Taco Cloud</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" href="../static/styles.css"/>
+</head>
+
+<body>
+
+<!--    It’s also worth noting that the complete template includes the Taco Cloud logo
+        image and a <link> reference to a stylesheet.2 In both cases, Thymeleaf’s @{} operator
+        is used to produce a context-relative path to the static artifacts that these tags are referencing.
+
+        As you learned in chapter 1, static content in a Spring Boot application is
+        served from the /static directory at the root of the classpath.
+-->
+
+<h1>Design your taco!</h1>
+<img th:src="@{/images/TacoCloud.png}" src="../static/images/TacoCloud.png"//>
+
+
+<!--    Thymeleaf templates are just HTML with some additional element attributes that
+        guide a template in rendering request data. For example, if there were a request attribute
+        whose key is "message", and you wanted it to be rendered into an HTML <p> tag
+        by Thymeleaf, you’d write the following in your Thymeleaf template:
+
+        <p th:text="${message}">placeholder message</p>
+
+        When the template is rendered into HTML, the body of the <p> element will be
+        replaced with the value of the servlet request attribute whose key is "message". The
+        th:text attribute is a Thymeleaf namespace attribute that performs the replacement.
+
+        The ${} operator tells it to use the value of a request attribute ("message", in
+        this case).
+-->
+
+<!-- <form method="POST"> -->
+<form method="POST" th:object="${taco}">
+
+    <!-- grid -->
+    <div class="grid">
+
+        <h2>Choose your Ingredients:</h2>
+
+        <div class="ingredient-group" id="wraps">
+
+            <h3>Designate your wrap:</h3>
+
+            <div th:each="ingredient : ${WRAP}">
+
+                <!-- <input name="ingredients" type="checkbox" value="FLTO" /> -->
+                <!-- <span>Flour Tortilla</span><br/> -->
+
+                <input th:field="*{ingredients}" type="checkbox"
+                       th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+            </div>
+
+        </div>
+
+        <div class="ingredient-group" id="proteins">
+
+            <h3>Pick your protein:</h3>
+
+            <div th:each="ingredient : ${PROTEIN}">
+                <input th:field="*{ingredients}" type="checkbox"
+                       th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="cheeses">
+
+            <h3>Choose your cheese:</h3>
+
+            <div th:each="ingredient : ${CHEESE}">
+                <input th:field="*{ingredients}" type="checkbox"
+                       th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="veggies">
+
+            <h3>Determine your veggies:</h3>
+
+            <div th:each="ingredient : ${VEGGIES}">
+                <input th:field="*{ingredients}" type="checkbox"
+                       th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+            </div>
+        </div>
+
+        <div class="ingredient-group" id="sauces">
+
+            <h3>Select your sauce:</h3>
+
+            <div th:each="ingredient : ${SAUCE}">
+                <input th:field="*{ingredients}" type="checkbox"
+                       th:value="${ingredient.id}"/>
+                <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h2>Name your taco creation:</h2>
+
+        <!-- <input name="name" type="text" /> -->
+        <input th:field="*{name}" type="text"/>
+
+    </div>
+
+    <div>
+        <button>Submit Your Taco</button>
+    </div>
+
+
+</form>
+
+
+</body>
+</html>
+
