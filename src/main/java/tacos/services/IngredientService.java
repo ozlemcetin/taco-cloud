@@ -42,4 +42,16 @@ public class IngredientService {
         return ingredients.stream().filter(x -> x.getType().equals(type)).collect(Collectors.toList());
 
     }
+
+    public Ingredient findById(String id) {
+
+        if (id != null && !id.isEmpty()) {
+
+            List<Ingredient> ingredients = findAll();
+
+            return ingredients.stream().filter(x -> x.getId().equalsIgnoreCase(id)).findFirst().orElse(null);
+        }
+
+        return null;
+    }
 }

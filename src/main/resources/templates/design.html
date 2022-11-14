@@ -36,6 +36,13 @@
         this case).
 -->
 
+<!--    If you take another look at the <form> tag in your view, you can see that its method
+        attribute is set to POST. Moreover, the <form> doesn’t declare an action attribute. This
+        means that when the form is submitted, the browser will gather all the data in the
+        form and send it to the server in an HTTP POST request to the same path for which a
+        GET request displayed the form—the /design path.
+-->
+
 <!-- <form method="POST"> -->
 <form method="POST" th:object="${taco}">
 

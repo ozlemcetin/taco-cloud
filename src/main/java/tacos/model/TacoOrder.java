@@ -35,7 +35,7 @@ public class TacoOrder {
     //the list of Taco objects that make up the order
     private List<Taco> tacos = new ArrayList<>();
 
-    //=== addTaco
+    //=== methods
     public void addTaco(Taco taco) {
         this.tacos.add(taco);
     }

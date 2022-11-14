@@ -3,10 +3,7 @@ package tacos.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import tacos.model.Ingredient;
 import tacos.model.Taco;
 import tacos.model.TacoOrder;
@@ -95,5 +92,36 @@ public class DesignTacoController {
     @GetMapping
     public String showDesignForm() {
         return "design";
+    }
+
+    /*
+        As applied to the processTaco() method, @PostMapping coordinates with the class-level
+        @RequestMapping to indicate that processTaco() should handle POST requests for
+        /design.
+
+        When the form is submitted, the fields in the form are bound to properties of a
+        Taco object that’s passed as a parameter into processTaco().
+     */
+    @PostMapping
+    public String processTaco(Taco taco, @ModelAttribute TacoOrder tacoOrder) {
+
+        /*
+            it adds the Taco to the TacoOrder object passed as a parameter
+            to the method and then logs it.
+         */
+        tacoOrder.addTaco(taco);
+        log.info("Processing taco: {} ", taco);
+
+        /*
+            the value returned from processTaco() is prefixed with "redirect:",
+            indicating that this is a redirect view.
+
+            It indicates that after processTaco() completes, the user’s browser
+            should be redirected to the relative path /orders/current
+
+            The idea is that after creating a taco, the user will be redirected to an order form
+            from which they can place an order to have their taco creations delivered
+         */
+        return "redirect:/orders/current";
     }
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Taco Cloud</title>
+    <link href="../static/styles.css" rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+
+<body>
+
+<h1>Order your taco creations!</h1>
+<img src="../static/images/TacoCloud.png" th:src="@{/images/TacoCloud.png}"//>
+
+<div>
+    <a id="another" th:href="@{/design}">Design another taco!</a><br/>
+</div>
+
+
+<!-- <form method="POST" action="/orders"> -->
+
+<!-- Without an action specified, the form
+    would submit an HTTP POST request back to the same URL that presented the form.
+    But here, you specify that the form should be POSTed to /orders (using Thymeleaf’s
+    @{…} operator for a context-relative path).-->
+
+<form method="POST" th:action="@{/orders}" th:object="${tacoOrder}">
+
+    <h2>Your tacos in this order:</h2>
+    <div>
+        <ul>
+            <li th:each="taco : ${tacoOrder.tacos}">
+                <span th:text="${taco.name}">taco name</span></li>
+        </ul>
+    </div>
+
+    <h2>Deliver my taco masterpieces to...</h2>
+    <div>
+        <label for="deliveryName">Name: </label>
+        <input id="deliveryName" th:field="*{deliveryName}" type="text"/>
+        <br/>
+
+
+        <label for="deliveryStreet">Street address: </label>
+        <input id="deliveryStreet" th:field="*{deliveryStreet}" type="text"/>
+        <br/>
+
+
+        <label for="deliveryCity">City: </label>
+        <input id="deliveryCity" th:field="*{deliveryCity}" type="text"/>
+        <br/>
+
+
+        <label for="deliveryState">State: </label>
+        <input id="deliveryState" th:field="*{deliveryState}" type="text"/>
+        <br/>
+
+
+        <label for="deliveryZip">Zip code: </label>
+        <input id="deliveryZip" th:field="*{deliveryZip}" type="text"/>
+        <br/>
+
+    </div>
+
+    <h2>Here's how I'll pay...</h2>
+    <div>
+        <label for="ccNumber">Credit Card #: </label>
+        <input id="ccNumber" th:field="*{ccNumber}" type="text"/>
+        <br/>
+
+
+        <label for="ccExpiration">Expiration: </label>
+        <input id="ccExpiration" th:field="*{ccExpiration}" type="text"/>
+        <br/>
+
+
+        <label for="ccCVV">CVV: </label>
+        <input id="ccCVV" th:field="*{ccCVV}" type="text"/>
+        <br/>
+
+    </div>
+
+    <div>
+        <input type="submit" value="Submit Order"/>
+    </div>
+
+</form>
+</body>
+</html>
+  
