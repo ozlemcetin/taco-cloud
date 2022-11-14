@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Taco Cloud</title>
-    <link rel="stylesheet" th:href="@{/styles.css}" href="../static/styles.css"/>
+    <link href="../static/styles.css" rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
 -->
 
 <h1>Design your taco!</h1>
-<img th:src="@{/images/TacoCloud.png}" src="../static/images/TacoCloud.png"//>
+<img src="../static/images/TacoCloud.png" th:src="@{/images/TacoCloud.png}"//>
 
 
 <!--    Thymeleaf templates are just HTML with some additional element attributes that
@@ -46,6 +46,19 @@
 <!-- <form method="POST"> -->
 <form method="POST" th:object="${taco}">
 
+    <!-- Thymeleaf offers convenient access to the Errors object via the fields property and
+        with its th:errors attribute. -->
+
+    <!-- the <span> element uses a th:if attribute to decide whether to display
+        the <span>. The fields property’s hasErrors() method checks whether there
+        are any errors in the ccNumber field. If so, the <span> will be rendered. -->
+
+    <!-- The th:errors attribute references the ccNumber field and, assuming errors exist
+        for that field, it will replace the placeholder content of the <span> element with the
+        validation message.-->
+    <span class="validationError" th:errors="*{ingredients}" th:if="${#fields.hasErrors('ingredients')}">Ingredients Error</span>
+    <br/>
+
     <!-- grid -->
     <div class="grid">
 
@@ -60,8 +73,8 @@
                 <!-- <input name="ingredients" type="checkbox" value="FLTO" /> -->
                 <!-- <span>Flour Tortilla</span><br/> -->
 
-                <input th:field="*{ingredients}" type="checkbox"
-                       th:value="${ingredient.id}"/>
+                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                       type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
 
@@ -72,8 +85,8 @@
             <h3>Pick your protein:</h3>
 
             <div th:each="ingredient : ${PROTEIN}">
-                <input th:field="*{ingredients}" type="checkbox"
-                       th:value="${ingredient.id}"/>
+                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                       type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
         </div>
@@ -83,8 +96,8 @@
             <h3>Choose your cheese:</h3>
 
             <div th:each="ingredient : ${CHEESE}">
-                <input th:field="*{ingredients}" type="checkbox"
-                       th:value="${ingredient.id}"/>
+                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                       type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
         </div>
@@ -94,8 +107,8 @@
             <h3>Determine your veggies:</h3>
 
             <div th:each="ingredient : ${VEGGIES}">
-                <input th:field="*{ingredients}" type="checkbox"
-                       th:value="${ingredient.id}"/>
+                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                       type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
         </div>
@@ -105,12 +118,13 @@
             <h3>Select your sauce:</h3>
 
             <div th:each="ingredient : ${SAUCE}">
-                <input th:field="*{ingredients}" type="checkbox"
-                       th:value="${ingredient.id}"/>
+                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                       type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
         </div>
     </div>
+
 
     <div>
         <h2>Name your taco creation:</h2>
@@ -118,6 +132,8 @@
         <!-- <input name="name" type="text" /> -->
         <input th:field="*{name}" type="text"/>
 
+        <span class="validationError" th:errors="*{name}" th:if="${#fields.hasErrors('name')}">Name Error</span>
+        <br/>
     </div>
 
     <div>

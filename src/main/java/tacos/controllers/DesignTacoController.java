@@ -3,11 +3,14 @@ package tacos.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import tacos.model.Ingredient;
 import tacos.model.Taco;
 import tacos.model.TacoOrder;
 import tacos.services.IngredientService;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -103,7 +106,29 @@ public class DesignTacoController {
         Taco object that’s passed as a parameter into processTaco().
      */
     @PostMapping
-    public String processTaco(Taco taco, @ModelAttribute TacoOrder tacoOrder) {
+    public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder tacoOrder) {
+
+         /*
+            Performing validation at form binding --specifying that validation should be performed when
+            the forms are POSTed to their respective handler methods.
+
+            To validate a submitted Taco, you need to add the JavaBean Validation API’s
+            @Valid annotation to the Taco argument of the DesignTacoController’s process-
+            processTaco() method.
+         */
+
+        /*
+            The @Valid annotation tells Spring MVC to perform validation on the submitted Taco
+            object after it’s bound to the submitted form data and before the processTaco()
+            method is called. If there are any validation errors, the details of those errors will be
+            captured in an Errors object that’s passed into processTaco().  The first few lines of
+            processTaco() consult the Errors object, asking its hasErrors() method if there are
+            any validation errors. If there are, the method concludes without processing the Taco
+            and returns the "design" view name so that the form is redisplayed.
+         */
+        if (errors.hasErrors()) {
+            return "design";
+        }
 
         /*
             it adds the Taco to the TacoOrder object passed as a parameter
