@@ -1,0 +1,10 @@
+#By setting the spring.datasource.generate-unique-name property to false,
+#we’re telling Spring to not generate a unique random value for the database name.
+#Instead, it should use the value set to the spring.datasource.name property. In this
+#case, the database name will be "tacocloud".
+#Consequently, the database URL will be "jdbc:h2:mem:tacocloud",
+#which you can specify in the JDBC URL for the H2 console connection.
+spring:
+  datasource:
+    generate-unique-name: false
+    name: tacocloud

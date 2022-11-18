@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -48,6 +49,10 @@ public class Taco {
         You’ll notice that in addition to requiring that the name property isn’t null, you
         declare that it should have a value that’s at least five characters in length.
      */
+
+    private Long id;
+
+    private Date createdAt = new Date();
 
     @NotNull
     @Size(min = 5, message = "Name must be at least 5 characters long")
