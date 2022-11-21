@@ -1,13 +1,12 @@
 package tacos.repository;
 
-import org.springframework.stereotype.Repository;
 import tacos.model.Ingredient;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Repository
 public class IngredientRepositoryHashMapImpl implements IngredientRepository {
 
     private final List<Ingredient> INGREDIENTS = Arrays.asList(new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
@@ -47,5 +46,13 @@ public class IngredientRepositoryHashMapImpl implements IngredientRepository {
     @Override
     public Ingredient save(Ingredient ingredient) {
         return null;
+    }
+
+    @Override
+    public List<Ingredient> filterByType(Ingredient.Type type) {
+
+        return INGREDIENTS.stream()
+
+                .filter(x -> x.getType().equals(type)).collect(Collectors.toList());
     }
 }

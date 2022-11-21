@@ -15,15 +15,21 @@ public class IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public List<Ingredient> findAll() {
+    public Iterable<Ingredient> findAll() {
         return ingredientRepository.findAll();
+    }
+
+
+    public Ingredient findById(String id) {
+        return ingredientRepository.findById(id).orElse(null);
+    }
+
+
+    public Ingredient save(Ingredient ingredient) {
+        return ingredientRepository.save(ingredient);
     }
 
     public List<Ingredient> filterByType(Ingredient.Type type) {
         return ingredientRepository.filterByType(type);
-    }
-
-    public Ingredient findById(String id) {
-        return ingredientRepository.findById(id).orElse(null);
     }
 }

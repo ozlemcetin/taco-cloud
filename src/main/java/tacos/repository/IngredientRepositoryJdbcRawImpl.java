@@ -74,4 +74,9 @@ public class IngredientRepositoryJdbcRawImpl implements IngredientRepository {
     public Ingredient save(Ingredient ingredient) {
         return null;
     }
+
+    @Override
+    public List<Ingredient> filterByType(Ingredient.Type type) {
+        return null;
+    }
 }

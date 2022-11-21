@@ -100,8 +100,26 @@ public class IngredientRepositoryJdbcTemplateImpl implements IngredientRepositor
 
     @Override
     public Ingredient save(Ingredient ingredient) {
-        return null;
+
+        /*
+            JdbcTemplate’s update() method can be used for any query that writes or updates
+            data in the database. And, as shown in the following listing, it can be used to insert
+            data into the database.
+         */
+        String sqlStr = "insert into Ingredient ( id, name, type) values (?, ?, ?)";
+
+        //the update() method
+        jdbcTemplate.update(sqlStr, ingredient.getId(), ingredient.getName(), ingredient.getType().toString());
+
+        return ingredient;
     }
 
+    @Override
+    public List<Ingredient> filterByType(Ingredient.Type type) {
+
+        String sqlStr = "select id, name, type from Ingredient where type=?";
+
+        return jdbcTemplate.query(sqlStr, this::mapRowToIngredient, type.toString());
+    }
 
 }
