@@ -31,37 +31,48 @@ public class TacoOrder {
         fields needed in the Taco class.
      */
 
+    //create table if not exists Taco_Order
+    //id identity,
     private Long id;
-
-    private Date placedAt;
 
     //delivery information
 
+    //delivery_Name varchar(50) not null,
     @NotBlank(message = "Delivery name is required")
     private String deliveryName;
 
+    //delivery_Street varchar(50) not null,
     @NotBlank(message = "Street is required")
     private String deliveryStreet;
 
+    //delivery_City varchar(50) not null,
     @NotBlank(message = "City is required")
     private String deliveryCity;
 
+    //delivery_State varchar(2) not null,
     @NotBlank(message = "State is required")
     private String deliveryState;
 
+    //delivery_Zip varchar(10) not null,
     @NotBlank(message = "Zip code is required")
     private String deliveryZip;
 
     //payment information
 
+    //cc_number varchar(16) not null,
     @CreditCardNumber(message = "Not a valid credit card number")
     private String ccNumber;
 
+    //cc_expiration varchar(5) not null,
     @Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([2-9][0-9])$", message = "Must be formatted MM/YY")
     private String ccExpiration;
 
+    //cc_cvv varchar(3) not null,
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
+
+    //placed_at timestamp not null
+    private Date placedAt;
 
     //the list of Taco objects that make up the order
     private List<Taco> tacos = new ArrayList<>();

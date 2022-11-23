@@ -50,13 +50,23 @@ public class Taco {
         declare that it should have a value that’s at least five characters in length.
      */
 
+    //create table if not exists Taco (
+    //id identity,
     private Long id;
 
-    private Date createdAt = new Date();
-
+    //name varchar(50) not null,
     @NotNull
     @Size(min = 5, message = "Name must be at least 5 characters long")
     private String name;
+
+    //alter table Taco
+    //add foreign key (taco_order) references Taco_Order(id);
+    //taco_order bigint not null,
+
+    //taco_order_key bigint not null,
+
+    //created_at timestamp not null
+    private Date createdAt = new Date();
 
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")

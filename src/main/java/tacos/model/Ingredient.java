@@ -20,8 +20,14 @@ public class Ingredient {
         methods as well as a constructor that accepts all final properties as arguments.
      */
 
+    //create table if not exists Ingredient (
+    //id varchar(4) not null,
     private final String id;
+
+    //name varchar(25) not null,
     private final String name;
+
+    //type varchar(10) not null
     private final Type type;
 
     public enum Type {
