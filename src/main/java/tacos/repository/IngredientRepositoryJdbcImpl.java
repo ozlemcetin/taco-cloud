@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class IngredientRepositoryJdbcTemplateImpl implements IngredientRepository {
+public class IngredientRepositoryJdbcImpl implements IngredientRepository {
 
     /*
         Although the interface captures the essence of what you need an ingredient repository
@@ -38,7 +38,7 @@ public class IngredientRepositoryJdbcTemplateImpl implements IngredientRepositor
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public IngredientRepositoryJdbcTemplateImpl(JdbcTemplate jdbcTemplate) {
+    public IngredientRepositoryJdbcImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

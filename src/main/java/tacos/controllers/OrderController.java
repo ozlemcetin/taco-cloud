@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import tacos.model.TacoOrder;
+import tacos.repository.TacoOrderRepository;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,12 @@ import javax.validation.Valid;
 @RequestMapping("/orders")
 @SessionAttributes("tacoOrder")
 public class OrderController {
+
+    private final TacoOrderRepository tacoOrderRepository;
+
+    public OrderController(TacoOrderRepository tacoOrderRepository) {
+        this.tacoOrderRepository = tacoOrderRepository;
+    }
 
     /*
         When combined with the method-level @GetMapping, it specifies that the orderForm() method will handle
@@ -42,6 +49,8 @@ public class OrderController {
             a taco.
          */
         log.info("Order submitted: {}", tacoOrder);
+        tacoOrderRepository.save(tacoOrder);
+
         sessionStatus.setComplete();
 
         return "redirect:/";
