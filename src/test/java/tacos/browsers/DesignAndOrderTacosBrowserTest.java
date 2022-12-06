@@ -273,7 +273,7 @@ public class DesignAndOrderTacosBrowserTest {
 
     private List<String> getValidationErrorTexts() {
 
-        List<WebElement> validationErrorElements = unitDriver.findElements(new By.ByCssSelector("validationError"));
+        List<WebElement> validationErrorElements = unitDriver.findElements(new By.ByClassName("validationError"));
 
         List<String> validationErrors = validationErrorElements.stream()
 

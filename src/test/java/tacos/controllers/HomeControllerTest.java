@@ -8,7 +8,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import tacos.services.IngredientService;
+import tacos.repository.IngredientRepository;
+import tacos.repository.TacoOrderRepository;
+
 
 //@WebMvcTest(HomeController.class)
 @WebMvcTest
@@ -27,7 +29,10 @@ public class HomeControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IngredientService ingredientService;
+    private IngredientRepository ingredientRepository;
+
+    @MockBean
+    private TacoOrderRepository tacoOrderRepository;
 
     @Test
     public void testHomePage() throws Exception {

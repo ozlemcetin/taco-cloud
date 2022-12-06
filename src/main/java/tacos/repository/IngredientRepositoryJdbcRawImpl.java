@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,32 @@ public class IngredientRepositoryJdbcRawImpl implements IngredientRepository {
 
     @Override
     public List<Ingredient> findAll() {
-        return null;
+
+        List<Ingredient> list = new ArrayList<>();
+        {
+            //creates a connection
+            try (Connection connection = dataSource.getConnection()) {
+
+                String sqlStr = "select id, name, type from Ingredient";
+
+                //creates a statement,
+                try (PreparedStatement statement = connection.prepareStatement(sqlStr)) {
+
+                    //creates a result set
+                    try (ResultSet resultSet = statement.executeQuery()) {
+
+                        while (resultSet.next()) {
+                            Ingredient ingredient = mapRowToIngredient(resultSet);
+                            list.add(ingredient);
+                        }
+                    }//ResultSet
+                }//PreparedStatement
+
+            } catch (SQLException e) {
+                // What should be done here ???
+            }
+        }
+        return list;
     }
 
 

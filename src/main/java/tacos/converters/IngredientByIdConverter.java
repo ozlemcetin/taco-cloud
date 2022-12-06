@@ -4,7 +4,7 @@ package tacos.converters;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import tacos.model.Ingredient;
-import tacos.services.IngredientService;
+import tacos.repository.IngredientRepository;
 
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {
@@ -17,11 +17,13 @@ public class IngredientByIdConverter implements Converter<String, Ingredient> {
         bound properties is needed.
      */
 
-    private final IngredientService ingredientService;
+    private final IngredientRepository ingredientRepository;
 
-    public IngredientByIdConverter(IngredientService ingredientService) {
-        this.ingredientService = ingredientService;
+    public IngredientByIdConverter(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
     }
+
+
 
     /*
 
@@ -45,6 +47,6 @@ public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
     @Override
     public Ingredient convert(String source) {
-        return ingredientService.findById(source);
+        return ingredientRepository.findById(source).orElse(null);
     }
 }

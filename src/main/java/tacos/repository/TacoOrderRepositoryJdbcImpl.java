@@ -1,6 +1,7 @@
 package tacos.repository;
 
 import net.bytebuddy.jar.asm.Type;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
@@ -11,10 +12,13 @@ import tacos.model.IngredientRef;
 import tacos.model.Taco;
 import tacos.model.TacoOrder;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TacoOrderRepositoryJdbcImpl implements TacoOrderRepository {
@@ -103,6 +107,7 @@ public class TacoOrderRepositoryJdbcImpl implements TacoOrderRepository {
              */
             GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcOperations.update(psc, keyHolder);
+
             tacoOrderId = keyHolder.getKey().longValue();
             tacoOrder.setId(tacoOrderId);
         }
@@ -114,14 +119,18 @@ public class TacoOrderRepositoryJdbcImpl implements TacoOrderRepository {
                 associated with the order. You can do that by calling saveTaco() for each Taco in
                 the order.
              */
-            List<Taco> tacos = tacoOrder.getTacos();
-            int i = 0;
-            for (Taco taco : tacos) {
-                saveTaco(tacoOrderId, i++, taco);
-            }
+            saveTacos(tacoOrderId, tacoOrder.getTacos());
         }
 
         return tacoOrder;
+    }
+
+    private void saveTacos(Long tacoOrderId, List<Taco> tacoList) {
+
+        int key = 0;
+        for (Taco taco : tacoList) {
+            saveTaco(tacoOrderId, key, taco);
+        }
     }
 
     private long saveTaco(Long tacoOrderId, int tacoOrderKey, Taco taco) {
@@ -152,6 +161,7 @@ public class TacoOrderRepositoryJdbcImpl implements TacoOrderRepository {
         {
             GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcOperations.update(psc, keyHolder);
+
             tacoId = keyHolder.getKey().longValue();
             taco.setId(tacoId);
         }
@@ -162,13 +172,13 @@ public class TacoOrderRepositoryJdbcImpl implements TacoOrderRepository {
                 In the end, it makes a call to saveIngredientRefs() to create a
                 row in the Ingredient_Ref table to link the Taco row to an Ingredient row
              */
-            saveIngredientRefs(tacoId, taco.getIngredients());
+            saveIngredientRefs(tacoId, taco.getIngredientsRefs());
         }
 
         return tacoId;
     }
 
-    private void saveIngredientRefs(long tacoId, List<IngredientRef> ingredientRefs) {
+    private void saveIngredientRefs(long tacoId, List<IngredientRef> ingredientRefList) {
 
         /*
             Thankfully, the saveIngredientRefs() method is much simpler. It cycles through a
@@ -177,11 +187,81 @@ public class TacoOrderRepositoryJdbcImpl implements TacoOrderRepository {
             stays intact.
          */
         int key = 0;
-        for (IngredientRef ingredientRef : ingredientRefs) {
+        for (IngredientRef ingredientRef : ingredientRefList) {
 
-            String sqlStr = "insert into Ingredient_Ref (ingredient, taco, taco_key) " + "values (?, ?, ?)";
+            String sqlStr = "insert into Ingredient_Ref (ingredient, taco, taco_key) values (?, ?, ?)";
 
             jdbcOperations.update(sqlStr, ingredientRef.getIngredient(), tacoId, key++);
         }
+    }
+
+
+    @Override
+    public Optional<TacoOrder> findById(Long id) {
+
+        try {
+
+            String sqlStr = "select id, delivery_name, delivery_street, delivery_city, "
+
+                    + "delivery_state, delivery_zip, cc_number, cc_expiration, "
+
+                    + "cc_cvv, placed_at from Taco_Order where id=?";
+
+            TacoOrder tacoOrder = jdbcOperations.queryForObject(sqlStr, this::mapRowToTacoOrder, id);
+
+            return Optional.of(tacoOrder);
+
+        } catch (IncorrectResultSizeDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    private TacoOrder mapRowToTacoOrder(ResultSet row, int rowNum) throws SQLException {
+
+        TacoOrder tacoOrder = new TacoOrder();
+        {
+            long tacoOrderId = row.getLong("id");
+            tacoOrder.setId(tacoOrderId);
+            tacoOrder.setDeliveryName(row.getString("delivery_name"));
+            tacoOrder.setDeliveryStreet(row.getString("delivery_street"));
+            tacoOrder.setDeliveryCity(row.getString("delivery_city"));
+            tacoOrder.setDeliveryState(row.getString("delivery_state"));
+            tacoOrder.setDeliveryZip(row.getString("delivery_zip"));
+            tacoOrder.setCcNumber(row.getString("cc_number"));
+            tacoOrder.setCcExpiration(row.getString("cc_expiration"));
+            tacoOrder.setCcCVV(row.getString("cc_cvv"));
+            tacoOrder.setPlacedAt(new Date(row.getTimestamp("placed_at").getTime()));
+            tacoOrder.setTacos(findTacosByOrderId(tacoOrderId));
+        }
+        return tacoOrder;
+    }
+
+    private List<Taco> findTacosByOrderId(long tacoOrderId) {
+
+        String sqlStr = "select id, name, created_at from Taco where taco_order=? order by taco_order_key";
+
+        return jdbcOperations.query(sqlStr, this::mapRowToTaco, tacoOrderId);
+    }
+
+    private Taco mapRowToTaco(ResultSet row, int rowNum) throws SQLException {
+
+        Taco taco = new Taco();
+        {
+            long tacoId = row.getLong("id");
+            taco.setId(tacoId);
+            taco.setName(row.getString("name"));
+            taco.setCreatedAt(new Date(row.getTimestamp("created_at").getTime()));
+            taco.setIngredientsRefs(findIngredientsByTacoId(tacoId));
+        }
+        return taco;
+    }
+
+    private List<IngredientRef> findIngredientsByTacoId(long tacoId) {
+
+        String sqlStr = "select ingredient from Ingredient_Ref where taco = ? order by taco_key";
+
+        return jdbcOperations.query(sqlStr, (row, rowNum) -> {
+            return new IngredientRef(row.getString("ingredient"));
+        }, tacoId);
     }
 }

@@ -56,7 +56,7 @@
     <!-- The th:errors attribute references the ccNumber field and, assuming errors exist
         for that field, it will replace the placeholder content of the <span> element with the
         validation message.-->
-    <span class="validationError" th:errors="*{ingredients}" th:if="${#fields.hasErrors('ingredients')}">Ingredients Error</span>
+    <span class="validationError" th:errors="*{ingredientsRefs}" th:if="${#fields.hasErrors('ingredientsRefs')}">Ingredients Error</span>
     <br/>
 
     <!-- grid -->
@@ -73,7 +73,7 @@
                 <!-- <input name="ingredients" type="checkbox" value="FLTO" /> -->
                 <!-- <span>Flour Tortilla</span><br/> -->
 
-                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                <input th:field="*{ingredientsRefs}" th:value="${ingredient.id}"
                        type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
@@ -85,7 +85,7 @@
             <h3>Pick your protein:</h3>
 
             <div th:each="ingredient : ${PROTEIN}">
-                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                <input th:field="*{ingredientsRefs}" th:value="${ingredient.id}"
                        type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
@@ -96,7 +96,7 @@
             <h3>Choose your cheese:</h3>
 
             <div th:each="ingredient : ${CHEESE}">
-                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                <input th:field="*{ingredientsRefs}" th:value="${ingredient.id}"
                        type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
@@ -107,7 +107,7 @@
             <h3>Determine your veggies:</h3>
 
             <div th:each="ingredient : ${VEGGIES}">
-                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                <input th:field="*{ingredientsRefs}" th:value="${ingredient.id}"
                        type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
@@ -118,7 +118,7 @@
             <h3>Select your sauce:</h3>
 
             <div th:each="ingredient : ${SAUCE}">
-                <input th:field="*{ingredients}" th:value="${ingredient.id}"
+                <input th:field="*{ingredientsRefs}" th:value="${ingredient.id}"
                        type="checkbox"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>

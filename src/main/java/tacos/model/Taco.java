@@ -70,11 +70,12 @@ public class Taco {
 
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")
-    private List<IngredientRef> ingredients = new ArrayList<>();
+    private List<IngredientRef> ingredientsRefs = new ArrayList<>();
 
     //=== methods
-    public void addIngredient(Ingredient ingredient) {
-        this.ingredients.add(new IngredientRef(ingredient.getId()));
+    public void addIngredientRef(String id) {
+        IngredientRef ref = new IngredientRef(id);
+        this.ingredientsRefs.add(ref);
     }
 
 }

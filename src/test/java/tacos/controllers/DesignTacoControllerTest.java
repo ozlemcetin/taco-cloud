@@ -11,7 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import tacos.services.IngredientService;
+import tacos.repository.IngredientRepository;
+
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(DesignTacoController.class)
@@ -21,7 +22,7 @@ class DesignTacoControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private IngredientService ingredientService;
+    private IngredientRepository ingredientRepository;
 
     @BeforeEach
     void setUp() {
@@ -62,7 +63,7 @@ class DesignTacoControllerTest {
         //Performs POST /design
         mockMvc.perform(MockMvcRequestBuilders.post("/design")
 
-                        .content("name=Test+Taco&ingredients=FLTO,GRBF,CHED")
+                        .content("name=Test+Taco&ingredientsRefs=FLTO,GRBF,CHED")
 
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
 

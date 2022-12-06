@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import tacos.model.Ingredient;
 import tacos.model.Taco;
 import tacos.model.TacoOrder;
-import tacos.services.IngredientService;
+import tacos.repository.IngredientRepository;
 
 import javax.validation.Valid;
 
@@ -47,11 +47,12 @@ public class DesignTacoController {
         need to be carried in the session so that it can span multiple requests.
      */
 
-    private final IngredientService ingredientService;
+    private final IngredientRepository ingredientRepository;
 
-    public DesignTacoController(IngredientService ingredientService) {
-        this.ingredientService = ingredientService;
+    public DesignTacoController(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
     }
+
 
     /*
         Model is an object that ferries data between a
@@ -64,7 +65,7 @@ public class DesignTacoController {
 
         Ingredient.Type[] types = Ingredient.Type.values();
         for (Ingredient.Type type : types) {
-            model.addAttribute(type.toString(), ingredientService.filterByType(type));
+            model.addAttribute(type.toString(), ingredientRepository.filterByType(type));
         }
     }
 

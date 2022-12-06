@@ -5,19 +5,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import tacos.model.Ingredient;
-import tacos.services.IngredientService;
+import tacos.repository.IngredientRepository;
+
+import java.util.Optional;
 
 class IngredientByIdConverterTest {
 
     private IngredientByIdConverter converter;
-    private IngredientService ingredientService;
+    private IngredientRepository ingredientRepository;
 
     @BeforeEach
     void setUp() {
 
         //mock
-        ingredientService = Mockito.mock(IngredientService.class);
-        converter = new IngredientByIdConverter(ingredientService);
+        ingredientRepository = Mockito.mock(IngredientRepository.class);
+        converter = new IngredientByIdConverter(ingredientRepository);
     }
 
     @Test
@@ -29,7 +31,7 @@ class IngredientByIdConverterTest {
             ingredient = new Ingredient(id, "TEST INGREDIENT", Ingredient.Type.CHEESE);
 
             //when
-            Mockito.when(ingredientService.findById(id)).thenReturn(ingredient);
+            Mockito.when(ingredientRepository.findById(id)).thenReturn(Optional.of(ingredient));
         }
 
         Ingredient convertedIngredient = converter.convert(id);
@@ -42,7 +44,7 @@ class IngredientByIdConverterTest {
         String id = "AAAA";
         {
             //when
-            Mockito.when(ingredientService.findById(id)).thenReturn(null);
+            Mockito.when(ingredientRepository.findById(id)).thenReturn(Optional.empty());
         }
 
         Ingredient convertedIngredient = converter.convert(id);
