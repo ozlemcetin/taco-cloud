@@ -1,4 +1,4 @@
-package tacos.repository;
+package tacos.repository.jdbc;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class IngredientRepositoryJdbcImplTest {
 
     @Autowired
-    private IngredientRepository ingredientRepository;
+    private IngredientJdbcRepository jdbcRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -33,7 +33,7 @@ class IngredientRepositoryJdbcImplTest {
     @Test
     void findById() {
 
-        Optional<Ingredient> fetchedFLTO = ingredientRepository.findById("FLTO");
+        Optional<Ingredient> fetchedFLTO = jdbcRepository.findById("FLTO");
         assertThat(fetchedFLTO.isPresent()).isTrue();
         assertThat(fetchedFLTO.get()).isEqualTo(new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP));
     }
@@ -41,7 +41,7 @@ class IngredientRepositoryJdbcImplTest {
     @Test
     void findById_NotFound() {
 
-        Optional<Ingredient> fetchedXXXX = ingredientRepository.findById("XXXX");
+        Optional<Ingredient> fetchedXXXX = jdbcRepository.findById("XXXX");
         assertThat(fetchedXXXX.isEmpty()).isTrue();
     }
 

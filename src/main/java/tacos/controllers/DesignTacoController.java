@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import tacos.model.Ingredient;
 import tacos.model.Taco;
 import tacos.model.TacoOrder;
-import tacos.repository.IngredientRepository;
+import tacos.repository.sd.jdbc.IngredientRepository;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -63,10 +67,17 @@ public class DesignTacoController {
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
 
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepository.findAll().forEach(i -> ingredients.add(i));
+
         Ingredient.Type[] types = Ingredient.Type.values();
         for (Ingredient.Type type : types) {
-            model.addAttribute(type.toString(), ingredientRepository.filterByType(type));
+            model.addAttribute(type.toString(), filterByType(ingredients, type));
         }
+    }
+
+    private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type) {
+        return ingredients.stream().filter(x -> x.getType().equals(type)).collect(Collectors.toList());
     }
 
     @ModelAttribute(name = "tacoOrder")
@@ -135,8 +146,12 @@ public class DesignTacoController {
             it adds the Taco to the TacoOrder object passed as a parameter
             to the method and then logs it.
          */
-        tacoOrder.addTaco(taco);
         log.info("Processing taco: {} ", taco);
+        {
+            taco.setCreatedAt(new Date());
+            tacoOrder.addTaco(taco);
+        }
+
 
         /*
             the value returned from processTaco() is prefixed with "redirect:",

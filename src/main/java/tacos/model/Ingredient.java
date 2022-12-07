@@ -1,9 +1,19 @@
 package tacos.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.domain.Persistable;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-public class Ingredient {
+@Table("INGREDIENT")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+public class Ingredient implements Persistable<String> {
 
     /*
         Perhaps the most unusual thing about the
@@ -22,13 +32,23 @@ public class Ingredient {
 
     //create table if not exists Ingredient (
     //id varchar(4) not null,
-    private final String id;
+
+    @Id
+    @Column("ID")
+    private String id;
 
     //name varchar(25) not null,
-    private final String name;
+    @Column("NAME")
+    private String name;
 
     //type varchar(10) not null
-    private final Type type;
+    @Column("TYPE")
+    private Type type;
+
+    @Override
+    public boolean isNew() {
+        return true;
+    }
 
     public enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE

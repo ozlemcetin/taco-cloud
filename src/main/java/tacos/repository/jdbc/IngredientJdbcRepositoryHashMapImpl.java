@@ -1,4 +1,4 @@
-package tacos.repository;
+package tacos.repository.jdbc;
 
 import tacos.model.Ingredient;
 
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class IngredientRepositoryHashMapImpl implements IngredientRepository {
+public class IngredientJdbcRepositoryHashMapImpl implements IngredientJdbcRepository {
 
     private final List<Ingredient> INGREDIENTS = Arrays.asList(new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
 

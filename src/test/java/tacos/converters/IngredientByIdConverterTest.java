@@ -5,7 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import tacos.model.Ingredient;
-import tacos.repository.IngredientRepository;
+import tacos.repository.jdbc.IngredientJdbcRepository;
+import tacos.repository.sd.jdbc.IngredientRepository;
 
 import java.util.Optional;
 

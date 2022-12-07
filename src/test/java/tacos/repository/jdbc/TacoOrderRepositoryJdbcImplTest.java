@@ -1,4 +1,4 @@
-package tacos.repository;
+package tacos.repository.jdbc;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TacoOrderRepositoryJdbcImplTest {
 
     @Autowired
-    private TacoOrderRepository tacoOrderRepository;
+    private TacoOrderJdbcRepository jdbcRepository;
 
     @Autowired
     private JdbcOperations jdbcOperations;
@@ -66,11 +66,11 @@ class TacoOrderRepositoryJdbcImplTest {
         }
 
 
-        TacoOrder savedOrder = tacoOrderRepository.save(order);
+        TacoOrder savedOrder = jdbcRepository.save(order);
         assertThat(savedOrder.getId()).isNotNull();
 
         Long savedOrderId = savedOrder.getId();
-        TacoOrder fetchedOrder = tacoOrderRepository.findById(savedOrderId).get();
+        TacoOrder fetchedOrder = jdbcRepository.findById(savedOrderId).get();
         assertThat(fetchedOrder).isNotNull();
 
         assertThat(fetchedOrder.getId()).isEqualTo(savedOrderId);

@@ -1,11 +1,11 @@
-package tacos.repository;
+package tacos.repository.jdbc;
 
 import tacos.model.Ingredient;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IngredientRepository {
+public interface IngredientJdbcRepository {
 
     /*
         Your Ingredient repository needs to perform the following operations:

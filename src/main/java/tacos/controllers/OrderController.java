@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import tacos.model.TacoOrder;
-import tacos.repository.TacoOrderRepository;
+import tacos.repository.sd.jdbc.TacoOrderRepository;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Slf4j
 @Controller
@@ -49,7 +50,10 @@ public class OrderController {
             a taco.
          */
         log.info("Order submitted: {}", tacoOrder);
-        tacoOrderRepository.save(tacoOrder);
+        {
+            tacoOrder.setPlacedAt(new Date());
+            tacoOrderRepository.save(tacoOrder);
+        }
 
         sessionStatus.setComplete();
 

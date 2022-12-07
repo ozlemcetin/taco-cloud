@@ -8,8 +8,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import tacos.repository.IngredientRepository;
-import tacos.repository.TacoOrderRepository;
+import tacos.repository.sd.jdbc.IngredientRepository;
+import tacos.repository.sd.jdbc.TacoOrderRepository;
 
 
 //@WebMvcTest(HomeController.class)

@@ -1,4 +1,4 @@
-package tacos.repository;
+package tacos.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class IngredientRepositoryJdbcImpl implements IngredientRepository {
+public class IngredientJdbcRepositoryImpl implements IngredientJdbcRepository {
 
     /*
         Although the interface captures the essence of what you need an ingredient repository
@@ -38,7 +38,7 @@ public class IngredientRepositoryJdbcImpl implements IngredientRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public IngredientRepositoryJdbcImpl(JdbcTemplate jdbcTemplate) {
+    public IngredientJdbcRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

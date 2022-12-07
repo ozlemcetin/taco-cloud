@@ -1,4 +1,4 @@
-package tacos.repository;
+package tacos.repository.jdbc;
 
 import tacos.model.Ingredient;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class IngredientRepositoryJdbcRawImpl implements IngredientRepository {
+public class IngredientRepositoryJdbcRawImpl implements IngredientJdbcRepository {
 
     private final javax.sql.DataSource dataSource;
 

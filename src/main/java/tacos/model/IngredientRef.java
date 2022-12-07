@@ -1,8 +1,13 @@
 package tacos.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Data
+@Table("INGREDIENT_REF")
+@AllArgsConstructor
 public class IngredientRef {
 
    /*
@@ -23,5 +28,7 @@ public class IngredientRef {
         that makes up the taco. The IngredientRef class defines that linking between Taco
         and Ingredient as follows:
      */
-    private final String ingredient;
+
+    @Column("INGREDIENT")
+    private String ingredient;
 }

@@ -1,10 +1,12 @@
-package tacos.repository;
+package tacos.repository.jdbc;
 
+import org.springframework.stereotype.Repository;
 import tacos.model.TacoOrder;
 
 import java.util.Optional;
 
-public interface TacoOrderRepository {
+@Repository
+public interface TacoOrderJdbcRepository {
 
     /*
         In our design, TacoOrder and Taco are part of an aggregate in which TacoOrder is

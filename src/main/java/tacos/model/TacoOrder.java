@@ -2,16 +2,23 @@ package tacos.model;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class TacoOrder {
+@Table("TACO_ORDER")
+public class TacoOrder implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /*
         When it comes to declaring validation on submitted taco orders, you must apply
@@ -33,45 +40,56 @@ public class TacoOrder {
 
     //create table if not exists Taco_Order
     //id identity,
+    @Id
+    @Column("ID")
     private Long id;
 
     //delivery information
 
     //delivery_Name varchar(50) not null,
+    @Column("DELIVERY_NAME")
     @NotBlank(message = "Delivery name is required")
     private String deliveryName;
 
     //delivery_Street varchar(50) not null,
+    @Column("DELIVERY_STREET")
     @NotBlank(message = "Street is required")
     private String deliveryStreet;
 
     //delivery_City varchar(50) not null,
+    @Column("DELIVERY_CITY")
     @NotBlank(message = "City is required")
     private String deliveryCity;
 
     //delivery_State varchar(2) not null,
+    @Column("DELIVERY_STATE")
     @NotBlank(message = "State is required")
     private String deliveryState;
 
     //delivery_Zip varchar(10) not null,
+    @Column("DELIVERY_ZIP")
     @NotBlank(message = "Zip code is required")
     private String deliveryZip;
 
     //payment information
 
     //cc_number varchar(16) not null,
+    @Column("CC_NUMBER")
     @CreditCardNumber(message = "Not a valid credit card number")
     private String ccNumber;
 
     //cc_expiration varchar(5) not null,
+    @Column("CC_EXPIRATION")
     @Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([2-9][0-9])$", message = "Must be formatted MM/YY")
     private String ccExpiration;
 
     //cc_cvv varchar(3) not null,
+    @Column("CC_CVV")
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
     //placed_at timestamp not null
+    @Column("PLACED_AT")
     private Date placedAt;
 
     //the list of Taco objects that make up the order

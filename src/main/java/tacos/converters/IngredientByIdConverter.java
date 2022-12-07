@@ -4,7 +4,7 @@ package tacos.converters;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import tacos.model.Ingredient;
-import tacos.repository.IngredientRepository;
+import tacos.repository.sd.jdbc.IngredientRepository;
 
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {
